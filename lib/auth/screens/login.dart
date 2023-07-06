@@ -50,7 +50,7 @@ class ScreenLogin extends StatelessWidget {
                 Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ScreenHome(),
+                      builder: (context) => const ScreenHome(),
                     ),
                     (route) => false);
               },
@@ -58,7 +58,7 @@ class ScreenLogin extends StatelessWidget {
             height10,
             RichText(
               text: TextSpan(children: [
-                TextSpan(
+                const TextSpan(
                   text: "Don't Have an account? ",
                   style: TextStyle(color: textColor, fontSize: 16),
                 ),
@@ -68,11 +68,11 @@ class ScreenLogin extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ScreenRegistration(),
+                              builder: (context) => const ScreenRegistration(),
                             ));
                       },
                     text: 'Sign Up Here',
-                    style: TextStyle(color: backgroundColor, fontSize: 18))
+                    style: const TextStyle(color: backgroundColor, fontSize: 18))
               ]),
             ),
           ],

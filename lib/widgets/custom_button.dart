@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../const/size_radius.dart';
-import '../screens/restro_details.dart';
 
 class CustomButton extends StatelessWidget {
   final Color buttonColor;

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restro_range/const/colors.dart';
 import 'package:restro_range/screens/home.dart';
-import 'package:restro_range/screens/launch.dart';
-import 'package:restro_range/auth/screens/registration.dart';
 
 void main() {
   runApp(const MyApp());

@@ -16,17 +16,17 @@ class CustomField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(vertical: 20),
+        margin: const EdgeInsets.symmetric(vertical: 20),
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
         width: size.width * 0.8,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: textColor,
           borderRadius: radius10,
         ),
         child: TextFormField(
           decoration: InputDecoration(
               hintText: title,
-              hintStyle: TextStyle(color: hintColor, fontSize: 15),
+              hintStyle: const TextStyle(color: hintColor, fontSize: 15),
               border: InputBorder.none),
         ));
   }

@@ -50,14 +50,14 @@ class ScreenRegistration extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ScreenRestroDetails(),
+                      builder: (context) => const ScreenRestroDetails(),
                     ));
               },
             ),
             height10,
             RichText(
               text: TextSpan(children: [
-                TextSpan(
+                const TextSpan(
                   text: 'Wait, You are already a User?  ',
                   style: TextStyle(color: textColor, fontSize: 16),
                 ),
@@ -67,7 +67,7 @@ class ScreenRegistration extends StatelessWidget {
                         Navigator.pop(context);
                       },
                     text: 'Login Here',
-                    style: TextStyle(color: backgroundColor, fontSize: 18))
+                    style: const TextStyle(color: backgroundColor, fontSize: 18))
               ]),
             ),
           ],

@@ -20,11 +20,11 @@ class ScreenRestroDetails extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios_rounded,
               color: textColor,
             )),
-        title: Text(
+        title: const Text(
           'Add Restaurant Details',
           style: TextStyle(fontSize: 20, color: backgroundColor),
         ),
@@ -53,7 +53,7 @@ class ScreenRestroDetails extends StatelessWidget {
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ScreenHome(),
+                        builder: (context) => const ScreenHome(),
                       ),
                       (route) => false);
                 },
@@ -85,7 +85,7 @@ class ImageUpload extends StatelessWidget {
               borderRadius: radius20,
               border: Border.all(color: borderColor, width: 5),
               image: DecorationImage(
-                  image: AssetImage('asset/images/restro_upload.jpg'),
+                  image: const AssetImage('asset/images/restro_upload.jpg'),
                   colorFilter: ColorFilter.mode(
                       Colors.black.withOpacity(0.2), BlendMode.darken),
                   fit: BoxFit.cover)),
@@ -98,7 +98,7 @@ class ImageUpload extends StatelessWidget {
               border: Border.all(color: borderColor, width: 2),
               borderRadius: radius10,
               color: Colors.black.withOpacity(0.5)),
-          child: Text(
+          child: const Text(
             'Change Cover',
             style: TextStyle(color: textColor, fontWeight: FontWeight.w500),
           ),

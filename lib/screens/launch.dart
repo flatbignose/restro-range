@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:restro_range/auth/screens/login.dart';
 import 'package:restro_range/const/colors.dart';
 import 'package:restro_range/const/size_radius.dart';
-import 'package:restro_range/auth/screens/registration.dart';
 
 class ScreenLaunch extends StatelessWidget {
   const ScreenLaunch({super.key});
