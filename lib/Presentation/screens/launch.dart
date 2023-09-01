@@ -4,6 +4,7 @@ import 'package:restro_range/const/colors.dart';
 import 'package:restro_range/const/size_radius.dart';
 
 class ScreenLaunch extends StatelessWidget {
+  static const routeName = '/launch';
   const ScreenLaunch({super.key});
 
   @override
@@ -40,21 +41,7 @@ class ScreenLaunch extends StatelessWidget {
                         shape: const ContinuousRectangleBorder(
                             borderRadius: radius20),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                  transitionDuration:
-                                      const Duration(milliseconds: 500),
-                                  pageBuilder:
-                                      (context, animation, secondaryAnimation) {
-                                    return SlideTransition(
-                                      position: Tween<Offset>(
-                                              begin: const Offset(0, 0.5),
-                                              end: const Offset(0, 0))
-                                          .animate(animation),
-                                      child: const ScreenLogin(),
-                                    );
-                                  }));
+                          Navigator.pushNamed(context, ScreenLogin.routeName);
                         },
                         child: const Text(
                           'Get Started',

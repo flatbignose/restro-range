@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "591394432839",
+    "project_id": "restro-range",
+    "storage_bucket": "restro-range.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591394432839:android:a28de37255e3392a9d0e62",
+        "android_client_info": {
+          "package_name": "com.flatbignose.restro_range"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "591394432839-dcbs2ehn6bpiu9n161vvch0aqper0a4l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flatbignose.restro_range",
+            "certificate_hash": "2332038938c752f7e27dd1905a12a5a06ebc9d7f"
+          }
+        },
+        {
+          "client_id": "591394432839-raehfbb6fboc5087bbf9g8el57fe9vlv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCm_kE6N8cdIS-jVMSGvhUkT8dKTfPP_9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "591394432839-raehfbb6fboc5087bbf9g8el57fe9vlv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

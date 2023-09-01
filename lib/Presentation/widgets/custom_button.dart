@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 
-import '../const/size_radius.dart';
+import '../../const/size_radius.dart';
 
 class CustomButton extends StatelessWidget {
   final Color buttonColor;
   final Color buttontextColor;
   final String title;
   final Function() onPressed;
+
   const CustomButton({
     super.key,
     required this.size,
     required this.buttonColor,
     required this.title,
-    required this.buttontextColor, required this.onPressed,
+    required this.buttontextColor,
+    required this.onPressed,
   });
 
   final Size size;
