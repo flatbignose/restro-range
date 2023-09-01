@@ -13,7 +13,6 @@ import 'package:uuid/uuid.dart';
 import '../../auth/screens/login.dart';
 import '../../const/size_radius.dart';
 import '../widgets/add_menu_item.dart';
-import 'menu.dart';
 
 class ScreenHome extends ConsumerStatefulWidget {
   static const routeName = '/home';
@@ -129,7 +128,7 @@ class _ScreenHomeState extends ConsumerState<ScreenHome> {
                                                   ScreenLogin.routeName,
                                                   (route) => false);
                                             },
-                                            child: Text(
+                                            child: const Text(
                                               'Yes',
                                               style:
                                                   TextStyle(color: textColor),
@@ -162,7 +161,7 @@ class _ScreenHomeState extends ConsumerState<ScreenHome> {
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
-                                            child: Text(
+                                            child: const Text(
                                               'No',
                                               style:
                                                   TextStyle(color: textColor),
@@ -209,7 +208,7 @@ class _ScreenHomeState extends ConsumerState<ScreenHome> {
                 child: const Icon(Icons.table_restaurant_rounded),
                 onPressed: () async {
                   // addItems(1);
-                  final uid = Uuid().v1();
+                  final uid = const Uuid().v1();
                   final tableData = await FirebaseFirestore.instance
                       .collection('restaurants')
                       .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -281,9 +280,9 @@ class _ScreenHomeState extends ConsumerState<ScreenHome> {
         showDragHandle: true,
         builder: (context) {
           if (index == 1) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           } else if (index == 2) {
-            return const AddWaiter();
+            return AddWaiter();
           } else {
             return const AddMenuItem();
           }

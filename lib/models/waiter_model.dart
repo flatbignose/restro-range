@@ -1,11 +1,10 @@
-import 'dart:convert';
-
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class WaiterModel {
   final String waiterPic;
   final String waiterName;
   final String waiterAge;
   final String waiterPhone;
+  final DateTime joinDate;
   final String restroName;
   final String userId;
   final String restroId;
@@ -15,6 +14,7 @@ class WaiterModel {
     required this.waiterName,
     required this.waiterAge,
     required this.waiterPhone,
+    required this.joinDate,
     required this.restroName,
     required this.userId,
     required this.restroId,
@@ -29,6 +29,7 @@ class WaiterModel {
       'userId': userId,
       'restroId': restroId,
       'waiterPic': waiterPic,
+      'joinDate' : joinDate,
     };
   }
 
@@ -41,6 +42,7 @@ class WaiterModel {
       userId: map['userId'] ?? '',
       restroId: map['restroId'] ?? '',
       waiterPic: map['waiterPic'] ?? '',
+      joinDate: DateTime(map['joinDate']),
     );
   }
 }

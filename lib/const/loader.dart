@@ -19,7 +19,7 @@ class ScreenLoader extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Text(
+            const Text(
               'RestroRange',
               style: TextStyle(color: primColor, fontSize: 70),
             ),

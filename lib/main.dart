@@ -43,13 +43,13 @@ class MyApp extends ConsumerWidget {
           if (restaurant == null) {
             return ScreenLogin();
           }
-          return ScreenHome();
+          return const ScreenHome();
         },
         error: (error, stackTrace) {
           return ErrorScreen(error: error.toString());
         },
         loading: () {
-          return ScreenLoader();
+          return const ScreenLoader();
         },
       ),
       // StreamBuilder(

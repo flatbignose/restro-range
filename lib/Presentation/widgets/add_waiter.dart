@@ -61,89 +61,112 @@ class _AddWaiterState extends ConsumerState<AddWaiter> {
       }
     }
 
-    return Scaffold(
-      body: SizedBox(
-        width: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Stack(
-                // ignore: prefer_const_literals_to_create_immutables
-                children: [
-                  CircleAvatar(
-                    radius: 105,
-                    backgroundColor: primColor,
-                    child: image == null
-                        ? const CircleAvatar(
-                            radius: 97,
-                            backgroundImage:
-                                AssetImage('asset/images/waiter.png'),
-                          )
-                        : CircleAvatar(
-                            radius: 97, backgroundImage: FileImage(image!)),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: InkWell(
-                      onTap: () {
-                        photoType(context);
-                      },
-                      child: const CircleAvatar(
-                        radius: 37,
-                        backgroundColor: primColor,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.black,
-                          radius: 32,
-                          child: Icon(
-                            Icons.camera_alt_outlined,
-                            color: Color.fromARGB(255, 207, 199, 199),
-                            size: 40,
+    return WillPopScope(
+      onWillPop: () async {
+        nameController.clear();
+        ageController.clear();
+        phoneController.clear();
+        idController.clear();
+        restroController.clear();
+        return true;
+      },
+      child: Scaffold(
+        body: SizedBox(
+          width: double.infinity,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Stack(
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: [
+                    CircleAvatar(
+                      radius: 105,
+                      backgroundColor: primColor,
+                      child: image == null
+                          ? const CircleAvatar(
+                              radius: 97,
+                              backgroundImage:
+                                  AssetImage('asset/images/waiter.png'),
+                            )
+                          : CircleAvatar(
+                              radius: 97, backgroundImage: FileImage(image!)),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: InkWell(
+                        onTap: () {
+                          photoType(context);
+                        },
+                        child: const CircleAvatar(
+                          radius: 37,
+                          backgroundColor: primColor,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            radius: 32,
+                            child: Icon(
+                              Icons.camera_alt_outlined,
+                              color: Color.fromARGB(255, 207, 199, 199),
+                              size: 40,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              CustomField(
-                
-                title: 'Enter Name',
-                size: size,
-                controller: nameController,
-              ),
-              CustomField(
-                title: 'Enter Age',
-                size: size,
-                controller: ageController,
-              ),
-              CustomField(
-                title: 'Enter Phone Number',
-                size: size,
-                controller: phoneController,
-              ),
-              CustomField(
-                title: 'Enter UserId',
-                size: size,
-                controller: idController,
-              ),
-              CustomField(
-                title: 'Enter Restaurant Name',
-                size: size,
-                controller: restroController,
-              ),
-              CustomButton(
-                size: size,
-                buttonColor: primColor,
-                title: 'Add Waiter',
-                buttontextColor: backgroundColor,
-                onPressed: () {
-                  addWaiter();
-                },
-              )
-            ],
+                  ],
+                ),
+                CustomField(
+                  obscure: false,
+                  visible: false,
+                  title: 'Enter Name',
+                  size: size,
+                  controller: nameController,
+                ),
+                CustomField(
+                  maxlength: 2,
+                  keyboardType: TextInputType.number,
+                  obscure: false,
+                  visible: false,
+                  title: 'Enter Age',
+                  size: size,
+                  controller: ageController,
+                ),
+                CustomField(
+                  maxlength: 10,
+                  keyboardType: TextInputType.phone,
+                  obscure: false,
+                  visible: false,
+                  title: 'Enter Phone Number',
+                  size: size,
+                  controller: phoneController,
+                ),
+                CustomField(
+                  obscure: false,
+                  visible: false,
+                  title: 'Enter UserId',
+                  size: size,
+                  controller: idController,
+                ),
+                CustomField(
+                  obscure: false,
+                  visible: false,
+                  title: 'Enter Restaurant Name',
+                  size: size,
+                  controller: restroController,
+                ),
+                CustomButton(
+                  size: size,
+                  buttonColor: primColor,
+                  title: 'Add Waiter',
+                  buttontextColor: backgroundColor,
+                  onPressed: () {
+                    addWaiter();
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),

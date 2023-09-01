@@ -6,18 +6,22 @@ import '../../const/colors.dart';
 import '../../const/size_radius.dart';
 
 class CustomField extends HookWidget {
+  final maxlength;
   final String title;
   final bool? visible;
   final bool? obscure;
+  final TextInputType? keyboardType;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   const CustomField({
     Key? key,
+    this.maxlength,
     required this.title,
     this.visible,
     this.obscure,
     this.controller,
     this.validator,
+    this.keyboardType,
     required this.size,
   }) : super(key: key);
 
@@ -38,14 +42,17 @@ class CustomField extends HookWidget {
           children: [
             Expanded(
               child: TextFormField(
-                obscureText:  passwordvisible.value,
+                obscureText: passwordvisible.value,
                 onEditingComplete: () {
                   // Clear the focus of the TextField when the keyboard is closed.
                   FocusNode();
                 },
+                keyboardType: keyboardType,
+                maxLength: maxlength,
                 validator: validator,
                 controller: controller,
                 decoration: InputDecoration(
+                    counterText: '',
                     hintText: title,
                     hintStyle: const TextStyle(color: hintColor, fontSize: 15),
                     border: InputBorder.none),
@@ -58,10 +65,10 @@ class CustomField extends HookWidget {
                       passwordvisible.value = !passwordvisible.value;
                     },
                     icon: passwordvisible.value
-                        ? Icon(
+                        ? const Icon(
                             Icons.visibility,
                           )
-                        : Icon(
+                        : const Icon(
                             Icons.visibility,
                             color: Colors.blue,
                           )))

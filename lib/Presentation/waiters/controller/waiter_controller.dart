@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:restro_range/Presentation/waiters/repository/waiter_repository.dart';
-import 'package:restro_range/auth/repository/auth_repository.dart';
 
 final waiterControProvider = Provider((ref) {
   final waiterRepo = ref.watch(waiterRepoProvider);
@@ -43,7 +42,11 @@ class WaiterController {
     );
   }
 
-  Stream<QuerySnapshot<Object>> getWaiters(String? restroId) {
-    return waiterRepo.getWaiters(restroId);
+  Stream<QuerySnapshot<Object>> getWaiters() {
+    return waiterRepo.getWaiters();
+  }
+
+  Stream<QuerySnapshot<Object>> getTables() {
+    return waiterRepo.getTables();
   }
 }

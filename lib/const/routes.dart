@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:restro_range/Presentation/screens/home.dart';
-import 'package:restro_range/Presentation/waiters/screens/waiter_profile.dart';
 import 'package:restro_range/auth/screens/restro_details.dart';
 import 'package:restro_range/auth/screens/login.dart';
 import 'package:restro_range/auth/screens/registration.dart';
@@ -20,15 +19,15 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case ScreenRestroDetails.routeName:
       return MaterialPageRoute(
-        builder: (context) => ScreenRestroDetails(),
+        builder: (context) => const ScreenRestroDetails(),
       );
     case ScreenHome.routeName:
       return MaterialPageRoute(
-        builder: (context) => ScreenHome(),
+        builder: (context) => const ScreenHome(),
       );
     case AddWaiter.routeName:
       return MaterialPageRoute(
-        builder: (context) => const AddWaiter(),
+        builder: (context) =>  AddWaiter(),
       );
     case AddMenuItem.routeName:
       return MaterialPageRoute(

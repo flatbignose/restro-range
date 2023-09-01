@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restro_range/Presentation/waiters/controller/waiter_controller.dart';
 import 'package:restro_range/Presentation/waiters/screens/waiter_profile.dart';
@@ -23,7 +24,7 @@ class _ScreenWaiterState extends ConsumerState<ScreenWaiter> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return StreamBuilder<QuerySnapshot>(
-        stream: ref.read(waiterControProvider).getWaiters(restroId),
+        stream: ref.read(waiterControProvider).getWaiters(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -51,7 +52,34 @@ class _ScreenWaiterState extends ConsumerState<ScreenWaiter> {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Text('No restaurants available.');
+            return Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.amberAccent,
+                      borderRadius: radius10,
+                    ),
+                    width: 220,
+                    height: 220,
+                    child: Image.asset(
+                      'asset/images/empty_waiters.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                const Text(
+                  'Add Waiters',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 40,
+                  ),
+                ),
+              ],
+            ));
           }
 
           return Padding(
@@ -73,24 +101,64 @@ class _ScreenWaiterState extends ConsumerState<ScreenWaiter> {
                 final phone = data['waiterPhone'];
                 final age = data['waiterAge'];
                 final restroName = data['restroName'];
+                final joinDate = data['joinDate'];
 
                 return InkWell(
+                  onLongPress: () async {
+                    HapticFeedback.vibrate();
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text(
+                            'Remove $name From Waiters',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          actions: [
+                            ElevatedButton(
+                                onPressed: () async {
+                                  await FirebaseFirestore.instance
+                                      .collection('restaurants')
+                                      .doc(FirebaseAuth
+                                          .instance.currentUser!.uid)
+                                      .collection('waiters')
+                                      .doc(waiterId)
+                                      .delete();
+
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Confirm')),
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Cancel'))
+                          ],
+                        );
+                      },
+                    );
+                  },
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
                         return WaiterProfile(
-                            waiterName: name,
-                            waiterAge: age,
-                            waiterPic: pic,
-                            waiterId: waiterId,
-                            waiterPhone: phone,
-                            restroName: restroName,
-                            restroId: restroId);
+                          waiterName: name,
+                          waiterAge: age,
+                          waiterPic: pic,
+                          waiterId: waiterId,
+                          waiterPhone: phone,
+                          restroName: restroName,
+                          restroId: restroId,
+                          joinDate: joinDate as Timestamp,
+                        );
                       },
                     ));
                   },
                   child: Card(
-                    shape: RoundedRectangleBorder(borderRadius: radius10),
+                    shape: const RoundedRectangleBorder(borderRadius: radius10),
                     elevation: 5,
                     borderOnForeground: true,
                     child: Stack(

@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import 'package:restro_range/const/colors.dart';
 import 'package:restro_range/const/size_radius.dart';
@@ -17,8 +19,10 @@ class WaiterProfile extends ConsumerWidget {
   final String waiterPhone;
   final String restroName;
   final String restroId;
+  final Timestamp joinDate;
   const WaiterProfile({
     super.key,
+    required this.joinDate,
     required this.waiterName,
     required this.waiterAge,
     required this.waiterPic,
@@ -30,6 +34,8 @@ class WaiterProfile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final String joined =
+        DateFormat.yMMMM().format(joinDate.toDate()).toString();
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
@@ -63,7 +69,7 @@ class WaiterProfile extends ConsumerWidget {
                         padding: const EdgeInsets.all(5),
                         decoration: const BoxDecoration(
                             color: textColor, borderRadius: radius10),
-                        child: const Text('Employee Since April 2023')),
+                        child: Text('Employee Since $joined')),
                   ],
                 )
               ],
@@ -85,42 +91,6 @@ class WaiterProfile extends ConsumerWidget {
             ),
           ],
         ),
-        //     Column(
-        //   children: [
-        //     Row(
-        //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //       children: [
-        //         Container(
-        //           width: size.width / 4,
-        //           height: size.width / 4,
-        //           decoration: BoxDecoration(
-        //             border: Border.all(width: 5, color: primColor),
-        //             borderRadius: radius10,
-        //           ),
-        //           child: Image.asset('asset/images/waiter.png'),
-        //         ),
-        //         Column(
-        //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //           children: [
-        //             const Text(
-        //               'Sahil Saleem',
-        //               style: TextStyle(
-        //                 fontSize: 20,
-        //                 fontWeight: FontWeight.bold,
-        //               ),
-        //             ),
-        //             Container(
-        //                 padding: const EdgeInsets.all(5),
-        //                 decoration: const BoxDecoration(
-        //                     color: textColor, borderRadius: radius10),
-        //                 child: const Text('Employee Since April 2023')),
-        //           ],
-        //         )
-        //       ],
-        //     ),
-        //     const Column()
-        //   ],
-        // )
       ),
     );
   }
