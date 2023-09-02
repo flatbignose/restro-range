@@ -61,6 +61,7 @@ class WaiterRepo {
       showSnackbar(context: context, content: e.toString());
     }
   }
+ 
 
   Stream<QuerySnapshot<Object>> getWaiters() {
     return firestore

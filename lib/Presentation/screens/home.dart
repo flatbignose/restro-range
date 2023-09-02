@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:restro_range/Presentation/tables/controller/table_controller.dart';
+import 'package:restro_range/Presentation/waiters/controller/waiter_controller.dart';
 import 'package:restro_range/Presentation/widgets/add_waiter.dart';
 import 'package:restro_range/auth/controllers/auth_controller.dart';
 import 'package:restro_range/const/colors.dart';
@@ -172,14 +174,6 @@ class _ScreenHomeState extends ConsumerState<ScreenHome> {
                             );
                           },
                         );
-                        // Future.delayed(const Duration(milliseconds: 2000));
-                        // const CircularProgressIndicator();
-                        // await FirebaseAuth.instance.signOut();
-                        // ignore: use_build_context_synchronously
-                        // Navigator.pushNamedAndRemoveUntil(
-                        //     context, ScreenLogin.routeName, (route) => false);
-                        // Navigator.popUntil(context,
-                        //     ModalRoute.withName(ScreenLogin.routeName));
                       }
                     },
                     child: DrawerList(
@@ -195,56 +189,55 @@ class _ScreenHomeState extends ConsumerState<ScreenHome> {
       ),
       body: ConstantLists.screens[_currentIndex],
       extendBody: true,
-      floatingActionButtonLocation: ExpandableFab.location,
-      floatingActionButton: ExpandableFab(
-          type: ExpandableFabType.up,
-          backgroundColor: primColor,
-          foregroundColor: backgroundColor,
-          closeButtonStyle: const ExpandableFabCloseButtonStyle(
-              backgroundColor: primColor, foregroundColor: backgroundColor),
-          children: [
-            FloatingActionButton.small(
-                heroTag: null,
-                child: const Icon(Icons.table_restaurant_rounded),
-                onPressed: () async {
-                  // addItems(1);
-                  final uid = const Uuid().v1();
-                  final tableData = await FirebaseFirestore.instance
-                      .collection('restaurants')
-                      .doc(FirebaseAuth.instance.currentUser!.uid)
-                      .collection('tables')
-                      .get();
-                  int tableNumber = tableData.docs.length + 1;
-                  DateTime createDate = DateTime.now();
-                  bool occupied = false;
-                  Map<String, dynamic> data = {
-                    'tableId': uid,
-                    'createDate': createDate,
-                    'occupied': occupied
-                  };
 
-                  await FirebaseFirestore.instance
-                      .collection('restaurants')
-                      .doc(FirebaseAuth.instance.currentUser!.uid)
-                      .collection('tables')
-                      .doc(uid)
-                      .set(data);
-                }),
-            FloatingActionButton.small(
-              heroTag: null,
-              child: const Icon(Icons.supervised_user_circle_outlined),
-              onPressed: () {
-                addItems(2);
-              },
-            ),
-            FloatingActionButton.small(
-              heroTag: null,
-              child: const Icon(Icons.padding_rounded),
-              onPressed: () {
-                addItems(3);
-              },
-            )
-          ]),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: primColor,
+        foregroundColor: backgroundColor,
+        onPressed: () {
+          if (_currentIndex == 0) {
+            ref.watch(tableControlProvider).addTable();
+          } else if (_currentIndex == 1) {
+            addItems(2);
+          } else {
+            addItems(3);
+          }
+        },
+        child: _currentIndex == 0
+            ? const Icon(Icons.table_bar_rounded)
+            : _currentIndex == 1
+                ? const Icon(Icons.supervised_user_circle_outlined)
+                : const Icon(Icons.supervised_user_circle_outlined),
+      ),
+      // ExpandableFab(
+      //     distance: 60,
+      //     expandedFabSize: ExpandableFabSize.regular,
+      //     type: ExpandableFabType.up,
+      //     backgroundColor: primColor,
+      //     foregroundColor: backgroundColor,
+      //     closeButtonStyle: const ExpandableFabCloseButtonStyle(
+      //         backgroundColor: primColor, foregroundColor: backgroundColor),
+      //     children: [
+      //   FloatingActionButton.small(
+      //       heroTag: null,
+      //       child: const Icon(Icons.table_restaurant_rounded),
+      //       onPressed: () async {
+      //         ref.watch(tableControlProvider).addTable();
+      //       }),
+      //   FloatingActionButton.small(
+      //     heroTag: null,
+      //     child: const Icon(Icons.supervised_user_circle_outlined),
+      //     onPressed: () {
+      //       addItems(2);
+      //     },
+      //   ),
+      //   FloatingActionButton.small(
+      //     heroTag: null,
+      //     child: const Icon(Icons.padding_rounded),
+      //     onPressed: () {
+      //       addItems(3);
+      //     },
+      //   )
+      // ]),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(
           topRight: Radius.circular(40),
@@ -282,7 +275,7 @@ class _ScreenHomeState extends ConsumerState<ScreenHome> {
           if (index == 1) {
             return const CircularProgressIndicator();
           } else if (index == 2) {
-            return AddWaiter();
+            return const AddWaiter();
           } else {
             return const AddMenuItem();
           }

@@ -18,6 +18,14 @@ class ConstantLists {
     'Phone Number'
   ];
 
+  // static const List<String> waiterInfo = [
+  //   'Name',
+  //   'UserID',
+  //   'Age',
+  //   'Phone Number',
+  //   'Join Date'
+  // ];
+
   static const List<String> regHintList = [
     'Enter Email Address',
     'Re-Enter Email Address',

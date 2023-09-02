@@ -13,9 +13,11 @@ import 'custom_button.dart';
 import 'form_field.dart';
 
 class AddWaiter extends ConsumerStatefulWidget {
+  
   static const routeName = 'add-waiter';
-  const AddWaiter({super.key});
+  const AddWaiter( {super.key});
 
+// final int index =2;
   @override
   ConsumerState<AddWaiter> createState() => _AddWaiterState();
 }
@@ -163,6 +165,7 @@ class _AddWaiterState extends ConsumerState<AddWaiter> {
                   buttontextColor: backgroundColor,
                   onPressed: () {
                     addWaiter();
+                    
                   },
                 )
               ],
