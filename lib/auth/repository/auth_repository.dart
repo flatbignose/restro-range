@@ -129,4 +129,8 @@ class AuthRepo {
       showSnackbar(context: context, content: e.toString());
     }
   }
+
+  signOut() async {
+    await auth.signOut();
+  }
 }

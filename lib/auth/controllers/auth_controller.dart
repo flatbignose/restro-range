@@ -69,4 +69,8 @@ class AuthContoller {
         phoneNumber: phoneNumber,
         restroPic: restroPic);
   }
+
+   logOut() {
+     authRepo.signOut();
+  }
 }

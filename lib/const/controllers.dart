@@ -33,6 +33,8 @@ TextEditingController phoneController = TextEditingController();
 TextEditingController ageController = TextEditingController();
 TextEditingController restroController = TextEditingController();
 TextEditingController idController = TextEditingController();
+TextEditingController infoController = TextEditingController();
+TextEditingController priceController = TextEditingController();
 
 final resDetailsControlProvider = Provider<List<TextEditingController>>((ref) {
   return [
@@ -42,5 +44,3 @@ final resDetailsControlProvider = Provider<List<TextEditingController>>((ref) {
     phoneController,
   ];
 });
-
-

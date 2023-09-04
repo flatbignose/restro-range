@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:restro_range/Presentation/menu/screens/categories.dart';
 
-import '../Presentation/screens/menu.dart';
 import '../Presentation/tables/screens/tables.dart';
 import '../Presentation/waiters/screens/waiters.dart';
 
@@ -8,7 +8,7 @@ class ConstantLists {
   static const List<Widget> screens = [
     ScreenTables(),
     ScreenWaiter(),
-    ScreenMenu()
+    ScreenCategories()
   ];
 
   static const List<String> restroHintList = [
@@ -34,6 +34,7 @@ class ConstantLists {
   ];
 
   static const List<String> drawerList = [
+    'Waiters Stats',
     'Revenue',
     'Settings',
     'About Us',
@@ -42,10 +43,11 @@ class ConstantLists {
   ];
 
   static const drawerIconsList = <IconData>[
+    Icons.supervised_user_circle_outlined,
     Icons.bar_chart,
     Icons.settings,
     Icons.info_outline,
-    Icons.contact_page_rounded,
+    Icons.security,
     Icons.logout,
   ];
 }

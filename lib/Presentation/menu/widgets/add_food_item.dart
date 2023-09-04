@@ -1,30 +1,30 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:restro_range/Presentation/menu/controller/menu_controller.dart';
+import 'package:restro_range/const/controllers.dart';
 
-import '../../const/colors.dart';
-import '../../const/controllers.dart';
-import '../../const/size_radius.dart';
-import '../../const/utils.dart';
-import '../screens/home.dart';
-import 'custom_button.dart';
-import 'form_field.dart';
+import '../../../const/colors.dart';
+import '../../../const/utils.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/form_field.dart';
 
-class AddMenuItem extends ConsumerStatefulWidget {
-  static const routeName = '/addMenu';
-  const AddMenuItem({super.key});
+class AddFoodItem extends ConsumerStatefulWidget {
+  final String categoryName;
+  final String categoryId;
+  const AddFoodItem(
+      {required this.categoryName, required this.categoryId, super.key});
 
   @override
-  ConsumerState<AddMenuItem> createState() => _AddMenuItemState();
+  ConsumerState<AddFoodItem> createState() => _AddFoodItemState();
 }
 
-class _AddMenuItemState extends ConsumerState<AddMenuItem> {
+class _AddFoodItemState extends ConsumerState<AddFoodItem> {
   File? image;
+
   void selectImage(ImageSource source) async {
-    image = (await pickImageFromGallery(context, source));
+    image = await pickImageFromGallery(context, source);
     Navigator.pop(context);
 
     setState(() {});
@@ -33,19 +33,24 @@ class _AddMenuItemState extends ConsumerState<AddMenuItem> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    addCategory() async {
-      if (nameController.text.isNotEmpty) {
-        await ref.read(menuControProvider).addCategory(
+
+    addFoodItem() async {
+      if (nameController.text.isNotEmpty &&
+          infoController.text.isNotEmpty &&
+          priceController.text.isNotEmpty) {
+        Navigator.pop(context);
+        await ref.read(menuControProvider).saveMenuItemtoFirebase(
               context: context,
-              categoryPic: image,
-              categoryName: nameController.text,
+              foodPic: image,
+              foodPrice: priceController.text,
+              foodName: nameController.text,
+              foodInfo: infoController.text,
+              categoryName: widget.categoryName,
+              categoryId: widget.categoryId,
             );
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ScreenHome(),
-            ));
         nameController.clear();
+        priceController.clear();
+        infoController.clear();
       }
     }
 
@@ -57,7 +62,6 @@ class _AddMenuItemState extends ConsumerState<AddMenuItem> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              height20,
               Stack(
                 // ignore: prefer_const_literals_to_create_immutables
                 children: [
@@ -67,8 +71,8 @@ class _AddMenuItemState extends ConsumerState<AddMenuItem> {
                     child: image == null
                         ? const CircleAvatar(
                             radius: 97,
-                            backgroundImage: NetworkImage(
-                                'https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aG90ZWwlMjBmb29kfGVufDB8fDB8fHww&w=1000&q=80'),
+                            backgroundImage: AssetImage(
+                                'asset/images/categories/biriyani.jpeg'),
                           )
                         : CircleAvatar(
                             radius: 97, backgroundImage: FileImage(image!)),
@@ -100,21 +104,36 @@ class _AddMenuItemState extends ConsumerState<AddMenuItem> {
               CustomField(
                 obscure: false,
                 visible: false,
-                title: 'Enter Category Name',
+                title: 'Enter Food Name',
                 size: size,
                 controller: nameController,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(),
-                child: CustomButton(
-                  size: size,
-                  buttonColor: primColor,
-                  title: 'Confirm',
-                  buttontextColor: backgroundColor,
-                  onPressed: addCategory,
-                ),
+              CustomField(
+                // maxlength: 2,
+                keyboardType: TextInputType.number,
+                obscure: false,
+                visible: false,
+                title: 'Enter Price',
+                size: size,
+                controller: priceController,
               ),
-              height20,
+              CustomField(
+                // maxlength: 10,
+                obscure: false,
+                visible: false,
+                title: 'Enter Food Description',
+                size: size,
+                controller: infoController,
+              ),
+              CustomButton(
+                size: size,
+                buttonColor: primColor,
+                title: 'Add Waiter',
+                buttontextColor: backgroundColor,
+                onPressed: () {
+                  addFoodItem();
+                },
+              )
             ],
           ),
         ),
@@ -124,7 +143,6 @@ class _AddMenuItemState extends ConsumerState<AddMenuItem> {
 
   Future<void> photoType(BuildContext ctx) async {
     showModalBottomSheet(
-      isScrollControlled: true,
       context: ctx,
       builder: (ctx1) => Container(
         height: 100,
@@ -196,3 +214,26 @@ class _AddMenuItemState extends ConsumerState<AddMenuItem> {
     );
   }
 }
+
+
+// CustomField(
+//                 obscure: false,
+//                 visible: false,
+//                 title: 'Enter Food Name',
+//                 size: size,
+//                 controller: nameController,
+//               ),
+//               CustomField(
+//                 obscure: false,
+//                 visible: false,
+//                 title: 'Enter Price',
+//                 size: size,
+//                 controller: priceController,
+//               ),
+//               CustomField(
+//                 obscure: false,
+//                 visible: false,
+//                 title: 'Enter Food info',
+//                 size: size,
+//                 controller: infoController,
+//               ),

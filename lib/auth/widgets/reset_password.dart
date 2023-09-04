@@ -32,11 +32,12 @@ class ResetPassword extends ConsumerWidget {
           children: [
             height20,
             SizedBox(
-              width: size.width / 2,
-              height: size.height / 4,
-              child: SvgPicture.asset(assetName)
-            ),
+                width: size.width / 2,
+                height: size.height / 4,
+                child: SvgPicture.asset(assetName)),
             CustomField(
+              obscure: false,
+              visible: false,
               title: 'Enter your email address',
               size: size,
               controller: emailController,

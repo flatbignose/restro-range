@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restro_range/Presentation/tables/controller/table_controller.dart';
 import 'package:restro_range/Presentation/waiters/controller/waiter_controller.dart';
+import 'package:restro_range/const/colors.dart';
 
 class ScreenTables extends ConsumerWidget {
   static const routeName = '/tables';
@@ -23,7 +24,10 @@ class ScreenTables extends ConsumerWidget {
             return GridView.builder(
               itemCount: snapshots.data!.docs.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3, childAspectRatio: 1, mainAxisSpacing: 20),
+                crossAxisCount: 2,
+                childAspectRatio: 1,
+                crossAxisSpacing: 20,
+              ),
               itemBuilder: (context, index) {
                 final document = snapshots.data!.docs[index];
                 final data = document.data() as Map<String, dynamic>;
@@ -43,9 +47,22 @@ class ScreenTables extends ConsumerWidget {
                     alignment: Alignment.center,
                     children: [
                       data['occupied'] == false
-                          ? Image.asset('asset/images/table_4_unoccupied.png')
-                          : Image.asset('asset/images/table_4_occupied.png'),
-                      Text('Table ${index + 1}')
+                          ? Image.asset('asset/images/table_2_unoccupied.png')
+                          : Image.asset('asset/images/table_2_occupied.png'),
+                      Positioned(
+                        bottom: 22,
+                        child: Text(
+                          'Table ${index + 1}',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                              background: Paint()
+                               ..strokeWidth = 30.0
+                                ..color = Colors.white
+                                ..style = PaintingStyle.stroke
+                                ..strokeJoin = StrokeJoin.round),
+                        ),
+                      ),
                     ],
                   ),
                 );

@@ -56,24 +56,21 @@ class WaiterCard extends ConsumerWidget {
               gradient: const LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [
-                  Color.fromARGB(255, 209, 202, 202),
-                  Colors.white
-                ], // Gradient colors
+                colors: [backgroundTint, Colors.white], // Gradient colors
               ),
             ),
             child: Row(
               children: [
                 Container(
-                  width: size.width * 0.4,
-                  height: size.height * 0.31,
+                  width: size.width * 0.42,
+                  height: size.height * 0.30,
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        topLeft: Radius.circular(10)),
-                    // border: Border.all(color: textColor, width: 10),
-                  ),
+                      // borderRadius: BorderRadius.only(
+                      //     bottomLeft: Radius.circular(10),
+                      //     topLeft: Radius.circular(10)),
+                      // border: Border.all(color: textColor, width: 10),
+                      ),
                   child: CachedNetworkImage(
                     imageUrl: waiterPic,
                     fit: BoxFit.cover,

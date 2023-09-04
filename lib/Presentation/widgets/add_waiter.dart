@@ -50,11 +50,7 @@ class _AddWaiterState extends ConsumerState<AddWaiter> {
               userId: idController.text,
               restroName: restroController.text,
             );
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ScreenHome(),
-            ));
+        Navigator.pop(context);
         nameController.clear();
         ageController.clear();
         phoneController.clear();

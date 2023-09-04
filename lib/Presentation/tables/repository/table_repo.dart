@@ -78,6 +78,7 @@ class TableRepo {
                       .collection('tables')
                       .doc(tableId)
                       .delete();
+                  // ignore: use_build_context_synchronously
                   Navigator.pop(context);
                 },
                 child: const Text('Confirm')),

@@ -61,13 +61,13 @@ class WaiterRepo {
       showSnackbar(context: context, content: e.toString());
     }
   }
- 
 
   Stream<QuerySnapshot<Object>> getWaiters() {
     return firestore
         .collection('restaurants')
         .doc(auth.currentUser!.uid)
         .collection('waiters')
+        .orderBy('joinDate')
         .snapshots();
   }
 

@@ -30,6 +30,7 @@ class CustomField extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final passwordvisible = useState<bool>(obscure!);
+    // controller!.text =  
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 20),
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
