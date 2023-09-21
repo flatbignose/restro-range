@@ -3,19 +3,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:restro_range/Presentation/screens/home.dart';
 import 'package:restro_range/Presentation/waiters/controller/waiter_controller.dart';
 import 'package:restro_range/const/controllers.dart';
 
 import '../../const/colors.dart';
+import '../../const/loader.dart';
 import '../../const/utils.dart';
 import 'custom_button.dart';
 import 'form_field.dart';
 
 class AddWaiter extends ConsumerStatefulWidget {
-  
   static const routeName = 'add-waiter';
-  const AddWaiter( {super.key});
+  const AddWaiter({super.key});
 
 // final int index =2;
   @override
@@ -38,9 +37,9 @@ class _AddWaiterState extends ConsumerState<AddWaiter> {
     addWaiter() async {
       if (nameController.text.isNotEmpty &&
           ageController.text.isNotEmpty &&
-          idController.text.isNotEmpty &&
-          restroController.text.isNotEmpty &&
+          idController.text.isNotEmpty  &&
           phoneController.text.isNotEmpty) {
+        
         await ref.read(waiterControProvider).savewaiterInfo(
               context: context,
               waiterPic: image,
@@ -48,9 +47,8 @@ class _AddWaiterState extends ConsumerState<AddWaiter> {
               waiterAge: ageController.text,
               waiterPhone: phoneController.text,
               userId: idController.text,
-              restroName: restroController.text,
             );
-        Navigator.pop(context);
+           
         nameController.clear();
         ageController.clear();
         phoneController.clear();
@@ -147,13 +145,6 @@ class _AddWaiterState extends ConsumerState<AddWaiter> {
                   size: size,
                   controller: idController,
                 ),
-                CustomField(
-                  obscure: false,
-                  visible: false,
-                  title: 'Enter Restaurant Name',
-                  size: size,
-                  controller: restroController,
-                ),
                 CustomButton(
                   size: size,
                   buttonColor: primColor,
@@ -161,7 +152,6 @@ class _AddWaiterState extends ConsumerState<AddWaiter> {
                   buttontextColor: backgroundColor,
                   onPressed: () {
                     addWaiter();
-                    
                   },
                 )
               ],

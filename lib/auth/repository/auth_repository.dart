@@ -6,9 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restro_range/Presentation/screens/home.dart';
 import 'package:restro_range/auth/screens/restro_details.dart';
+import 'package:restro_range/const/loader.dart';
 import 'package:restro_range/const/utils.dart';
 import 'package:restro_range/models/restaurant_model.dart';
 import 'package:restro_range/providers/firebase_storage.dart';
+
+import '../../const/controllers.dart';
 
 final authRepoProvider = Provider((ref) => AuthRepo(
       auth: FirebaseAuth.instance,
@@ -19,19 +22,10 @@ class AuthRepo {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
 
-  AuthRepo({required this.auth, required this.firestore});
-
-  // TextEditingController emailController = TextEditingController();
-  // TextEditingController confirmEmailController = TextEditingController();
-  // TextEditingController passwordController = TextEditingController();
-  // TextEditingController confirmPasswordController = TextEditingController();
-
-  // List<TextEditingController>controllers=[
-  //   emailController,
-  //   confirmEmailController,
-  //   passwordController,
-  //   confirmPasswordController
-  // ];
+  AuthRepo({
+    required this.auth,
+    required this.firestore,
+  });
 
   Future<RestroModel?> getCurrentUserData() async {
     var userData = await firestore
@@ -56,10 +50,15 @@ class AuthRepo {
         email: email,
         password: password,
       );
+      emailController.clear();
+      passwordController.clear();
+      confirmEmailController.clear();
+      confirmPasswordController.clear();
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushNamed(ScreenRestroDetails.routeName);
     } on FirebaseAuthException catch (e) {
       showSnackbar(context: context, content: e.message!);
+      Navigator.pop(context);
     }
   }
 
@@ -73,11 +72,14 @@ class AuthRepo {
         email: email,
         password: password,
       );
+      emailController.clear();
+      passwordController.clear();
 
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushNamed(ScreenHome.routeName);
     } on FirebaseAuthException catch (e) {
       showSnackbar(context: context, content: e.message!);
+      Navigator.pop(context);
     }
   }
 
@@ -125,8 +127,14 @@ class AuthRepo {
           .collection('restaurants')
           .doc(restroId)
           .set(restaurant.toMap());
+
+      nameController.clear();
+      ownerController.clear();
+      addressController.clear();
+      phoneController.clear();
     } catch (e) {
       showSnackbar(context: context, content: e.toString());
+      Navigator.pop(context);
     }
   }
 

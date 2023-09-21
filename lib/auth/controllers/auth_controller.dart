@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restro_range/auth/repository/auth_repository.dart';
 import 'package:restro_range/models/restaurant_model.dart';
 
+import '../../const/loader.dart';
+
 final authContollerProvider = Provider((ref) {
   final authRepo = ref.watch(authRepoProvider);
   return AuthContoller(authRepo: authRepo, ref: ref);
@@ -43,8 +45,12 @@ class AuthContoller {
     required String email,
     required String password,
   }) async {
+    
     await authRepo.loginWithEmailRepo(
-        context: context, email: email, password: password);
+      context: context,
+      email: email,
+      password: password,
+    );
   }
 
   Future<void> resetPassword(
@@ -70,7 +76,7 @@ class AuthContoller {
         restroPic: restroPic);
   }
 
-   logOut() {
-     authRepo.signOut();
+  logOut() {
+    authRepo.signOut();
   }
 }

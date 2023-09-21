@@ -21,8 +21,8 @@ class TableControl {
     await tableRepo.delete(context, index, tableId);
   }
 
-  Future<dynamic> addTable() async {
-    await tableRepo.addTableToFirebase();
+  Future<dynamic> addTable({required BuildContext context}) async {
+    await tableRepo.addTableToFirebase(context: context);
   }
 
   Future<dynamic> updateTable(Map<String, dynamic> data) async {

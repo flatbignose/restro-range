@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restro_range/auth/controllers/auth_controller.dart';
 import 'package:restro_range/auth/screens/registration.dart';
 import 'package:restro_range/auth/widgets/reset_password.dart';
+import 'package:restro_range/const/loader.dart';
 import 'package:restro_range/const/utils.dart';
 import '../../Presentation/widgets/custom_button.dart';
 import '../../Presentation/widgets/form_field.dart';
@@ -24,11 +25,16 @@ class ScreenLogin extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     loginUser() {
       if (formkey.currentState!.validate()) {
+        showDialog(
+          context: context,
+          builder: (context) => const Loader(title: 'Logging In'),
+        );
         ref.watch(authContollerProvider).loginEmail(
               context: context,
               email: emailController.text,
               password: passwordController.text,
             );
+
       } else {
         showSnackbar(context: context, content: 'Fill All Fields');
       }
@@ -63,6 +69,9 @@ class ScreenLogin extends ConsumerWidget {
               child: Column(
                 children: [
                   CustomField(
+                    // ontap: () {
+                    //   return formkey.currentState!.reset();
+                    // },
                     visible: false,
                     obscure: false,
                     size: size,
@@ -80,6 +89,9 @@ class ScreenLogin extends ConsumerWidget {
                     },
                   ),
                   CustomField(
+                    // ontap: () {
+                    //   return formkey.currentState!.reset();
+                    // },
                     visible: true,
                     obscure: true,
                     size: size,

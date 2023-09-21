@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:restro_range/Presentation/waiters/screens/waiters.dart';
+import 'package:restro_range/const/utils.dart';
 import 'package:uuid/uuid.dart';
 
 final tableRepoProvider = Provider((ref) => TableRepo(
@@ -19,7 +21,7 @@ class TableRepo {
     required this.auth,
   });
 
-  Future<void> addTableToFirebase() async {
+  Future<void> addTableToFirebase({required BuildContext context}) async {
     final uid = const Uuid().v1();
 
     DateTime createDate = DateTime.now();
@@ -29,28 +31,59 @@ class TableRepo {
       'createDate': createDate,
       'occupied': occupied
     };
-
+    try {
+      await firestore
+          .collection('restaurants')
+          .doc(auth.currentUser!.uid)
+          .collection('tables')
+          .doc(uid)
+          .set(data);
+    } catch (e) {
+      showSnackbar(context: context, content: e.toString());
+      Navigator.pop(context);
+    }
+    List<Map<String, dynamic>> tableSet = [
+      {'tableSet': null}
+    ];
+    Map<String, dynamic> tables = {"tableList": tableSet};
     await firestore
         .collection('restaurants')
-        .doc(auth.currentUser!.uid)
-        .collection('tables')
-        .doc(uid)
-        .set(data);
+        .doc(restroId)
+        .collection('tableList')
+        .doc('tables')
+        .set(tables);
+    final tableDoc = await firestore
+        .collection('restaurants')
+        .doc(restroId)
+        .collection('tableList')
+        .doc('tables')
+        .get();
+    List<dynamic> tableDocListDynamic = tableDoc['tableList'];
+    List<Map<String, dynamic>> tableDocList =
+        List<Map<String, dynamic>>.from(tableDocListDynamic);
+    print(tableDocList);
+    Map<String, dynamic> tableData = {'tableSet': null};
+
+    tableDocList.add(tableData);
+    print(tableDocList);
+    Map<String, dynamic> addedTable = {"tableList": tableDocList};
+    await firestore
+        .collection('restaurants')
+        .doc(restroId)
+        .collection('tableList')
+        .doc('tables')
+        .set(addedTable);
   }
 
   Future<void> updateTableFirebase(Map<String, dynamic> data) async {
     bool occupied = !data['occupied'];
-    Map<String, dynamic> datas = {
-      'tableId': data['tableId'],
-      'createDate': data['createDate'],
-      'occupied': occupied
-    };
+
     await firestore
         .collection('restaurants')
         .doc(auth.currentUser!.uid)
         .collection('tables')
         .doc(data['tableId'])
-        .set(datas);
+        .update({'occupied': occupied});
   }
 
   Future<dynamic> delete(BuildContext context, int index, tableId) {
@@ -68,7 +101,7 @@ class TableRepo {
           actions: [
             ElevatedButton(
                 onPressed: () async {
-                  const CircularProgressIndicator(       
+                  const CircularProgressIndicator(
                     backgroundColor: Colors.red,
                     strokeWidth: 20,
                   );
@@ -92,4 +125,6 @@ class TableRepo {
       },
     );
   }
+
+   
 }

@@ -30,20 +30,19 @@ class RestroDrawer extends StatelessWidget {
                 builder: (context, snapshot) {
                   return Container(
                     decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20)),
+                        borderRadius:
+                            BorderRadius.only(topRight: Radius.circular(20)),
                         image: DecorationImage(
-                            image: AssetImage(
-                                'asset/images/restro_upload.jpg'),
+                            image: AssetImage('asset/images/restro_upload.jpg'),
                             fit: BoxFit.cover)),
                   );
                 }),
           ),
           Column(
-            children: List.generate(6, (index) {
+            children: List.generate(4, (index) {
               return GestureDetector(
                 onTap: () async {
-                  if (index == 5) {
+                  if (index == 3) {
                     showDialog(
                       context: context,
                       builder: (context) {
@@ -64,4 +63,3 @@ class RestroDrawer extends StatelessWidget {
     );
   }
 }
-

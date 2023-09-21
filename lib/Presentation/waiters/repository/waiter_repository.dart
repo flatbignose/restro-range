@@ -6,9 +6,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:restro_range/Presentation/screens/home.dart';
+import 'package:restro_range/const/controllers.dart';
 import 'package:restro_range/const/utils.dart';
 import 'package:restro_range/models/waiter_model.dart';
 import 'package:restro_range/providers/firebase_storage.dart';
+
+import '../../../const/loader.dart';
 
 final waiterRepoProvider = Provider((ref) => WaiterRepo(
     firestore: FirebaseFirestore.instance,
@@ -30,7 +34,6 @@ class WaiterRepo {
     required String waiterAge,
     required String waiterPhone,
     required String userId,
-    required String restroName,
   }) async {
     try {
       String restroId = auth.currentUser!.uid;
@@ -48,17 +51,27 @@ class WaiterRepo {
           waiterName: waiterName,
           waiterAge: waiterAge,
           waiterPhone: waiterPhone,
-          restroName: restroName,
           userId: userId,
           restroId: restroId);
+      // showDialog(
+      //   context: context,
+      //   builder: (context) => const Loader(title: 'Adding Waiter'),
+      // );
       await firestore
           .collection('restaurants')
           .doc(restroId)
           .collection('waiters')
           .doc(userId)
           .set(waiter.toMap());
+      nameController.clear();
+      ageController.clear();
+      phoneController.clear();
+      idController.clear();
+      restroController.clear();
+      Navigator.pushNamed(context, ScreenHome.routeName);
     } catch (e) {
       showSnackbar(context: context, content: e.toString());
+      Navigator.pop(context);
     }
   }
 

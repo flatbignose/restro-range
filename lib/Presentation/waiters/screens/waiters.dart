@@ -1,10 +1,14 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restro_range/Presentation/waiters/controller/waiter_controller.dart';
+import 'package:restro_range/Presentation/waiters/screens/edit_waiter_profile.dart';
 import 'package:restro_range/Presentation/waiters/widgets/waiter_profile.dart';
 import 'package:restro_range/const/colors.dart';
+import 'package:restro_range/const/loader.dart';
 import 'package:restro_range/const/size_radius.dart';
 
 class ScreenWaiter extends ConsumerStatefulWidget {
@@ -57,7 +61,7 @@ class _ScreenWaiterState extends ConsumerState<ScreenWaiter> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.amberAccent,
                       borderRadius: radius10,
                     ),
@@ -96,20 +100,28 @@ class _ScreenWaiterState extends ConsumerState<ScreenWaiter> {
                 final restroName = data['restroName'];
                 final joinDate = data['joinDate'];
 
-                return InkWell(
-                    onLongPress: () async {
-                      // HapticFeedback.heavyImpact();
-                      optim(context);
-                    },
-                    child: WaiterCard(
+                return Stack(
+                  children: [
+                    WaiterCard(
                         joinDate: joinDate,
                         waiterName: name,
                         waiterAge: age,
                         waiterPic: pic,
                         waiterId: waiterId,
                         waiterPhone: phone,
-                        restroName: restroName,
-                        restroId: restroId));
+                        restroId: restroId),
+                    Positioned(
+                      top: 10,
+                      right: 0,
+                      child: IconButton(
+                          onPressed: () {
+                            optim(context, size, name, age, pic, waiterId,
+                                phone, restroId, joinDate);
+                          },
+                          icon: Icon(Icons.more_vert_outlined)),
+                    )
+                  ],
+                );
               },
             ),
           );
@@ -118,37 +130,87 @@ class _ScreenWaiterState extends ConsumerState<ScreenWaiter> {
 
   Future<dynamic> optim(
     BuildContext context,
+    Size size,
+    String waiterName,
+    String waiterAge,
+    String waiterPic,
+    String waiterId,
+    String waiterPhone,
+    String restroId,
+    Timestamp joinDate,
   ) {
     return showModalBottomSheet(
+      backgroundColor: Colors.black,
       context: context,
-      builder: (context) {
-        return Container(
-          height: 100,
-          decoration: const BoxDecoration(
-            borderRadius: radius10,
-            color: primColor,
+      showDragHandle: true,
+      builder: (
+        context,
+      ) {
+        return SizedBox(
+          height: size.height / 6,
+          child: Column(
+            children: [
+              InkWell(
+                onTap: () async {
+                  Navigator.pop(context);
+                  await Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return ScreenEditProfile(
+                        waiterName: waiterName,
+                        waiterAge: waiterAge,
+                        waiterPic: waiterPic,
+                        waiterId: waiterId,
+                        waiterPhone: waiterPhone,
+                        restroId: restroId,
+                        joinDate: joinDate,
+                      );
+                    },
+                  ));
+                },
+                child: const SizedBox(
+                  child: ListTile(
+                    title: Text(
+                      'Edit',
+                      style: TextStyle(color: backgroundColor),
+                    ),
+                    leading: Icon(Icons.edit),
+                    iconColor: backgroundColor,
+                  ),
+                ),
+              ),
+              const Divider(
+                thickness: 0.5,
+                height: 0,
+              ),
+              InkWell(
+                onTap: () async {
+                  Navigator.pop(context);
+                  await options(context, waiterName, waiterId);
+                },
+                child: const ListTile(
+                  title: Text(
+                    'Delete',
+                    style: TextStyle(color: backgroundColor),
+                  ),
+                  leading: Icon(Icons.delete),
+                  iconColor: backgroundColor,
+                ),
+              )
+            ],
           ),
-          // child: ListView.separated(
-          //     itemBuilder: (context, index) {
-          //       ListTile(
-          //         leading: Icon(Icons.edit),
-          //       )
-          //     },
-          //     separatorBuilder: separatorBuilder,
-          //     itemCount: itemCount),
         );
       },
     );
   }
 
   Future<dynamic> options(BuildContext context, name, waiterId) {
-    return showDialog(
+    return showModalBottomSheet(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: Text(
             'Remove $name From Waiters',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -164,12 +226,12 @@ class _ScreenWaiterState extends ConsumerState<ScreenWaiter> {
                       .doc(waiterId)
                       .delete();
                 },
-                child: Text('Confirm')),
+                child: const Text('Confirm')),
             ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('Cancel'))
+                child: const Text('Cancel'))
           ],
         );
       },

@@ -6,9 +6,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:restro_range/Presentation/screens/home.dart';
 import 'package:restro_range/Presentation/widgets/add_menu_item.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../const/loader.dart';
 import '../../../const/utils.dart';
 import '../../../providers/firebase_storage.dart';
 
@@ -51,6 +53,7 @@ class MenuRepo {
         'restroId': restroId,
         'categoryPic': photoUrl,
       };
+
       await firestore
           .collection('restaurants')
           .doc(restroId)
@@ -94,17 +97,29 @@ class MenuRepo {
         'foodPic': photoUrl,
         'foodDescription': foodInfo,
         'foodPrice': foodPrice,
+        'foodId': uid,
       };
+      // showDialog(
+      //   context: context,
+      //   builder: (context) =>
+      //       Loader(title: 'Adding $foodName to $categoryName'),
+      // );
+      // await firestore
+      //     .collection('restaurants')
+      //     .doc(restroId)
+      //     .collection('menuCategory')
+      //     .doc(categoryId)
+      //     .collection('foodItems')
+      //     .doc(uid)
+      //     .set(foodItem);
       await firestore
           .collection('restaurants')
           .doc(restroId)
-          .collection('menuCategory')
-          .doc(categoryId)
-          .collection('foodItems')
-          .doc(uid)
-          .set(foodItem);
+          .collection('menu')
+          .add(foodItem);
     } catch (e) {
       showSnackbar(context: context, content: e.toString());
+      Navigator.pop(context);
     }
   }
 
@@ -118,14 +133,35 @@ class MenuRepo {
   }
 
 //half baked data
-  Stream<QuerySnapshot<Object>> getMenuItems({required String categoryId}) {
+  // Stream<QuerySnapshot<Object>> getMenuItems({required String categoryId}) {
+  //   return firestore
+  //       .collection('restaurants')
+  //       .doc(auth.currentUser!.uid)
+  //       .collection('menuCategory')
+  //       .doc(categoryId)
+  //       .collection('foodItems')
+  //       .orderBy('createDate')
+  //       .snapshots();
+  // }
+  Stream<QuerySnapshot<Object>> getMenuItems({required String categoryName}) {
     return firestore
         .collection('restaurants')
         .doc(auth.currentUser!.uid)
-        .collection('menuCategory')
-        .doc(categoryId)
-        .collection('foodItems')
-        .orderBy('createDate')
+        .collection('menu')
+        .where('categoryName', isEqualTo: categoryName)
         .snapshots();
+  }
+
+  Stream<QuerySnapshot<Object>> orderNotifications() {
+    return firestore
+        .collection('restaurants')
+        .doc(auth.currentUser!.uid)
+        .collection('orders')
+        .orderBy('orderTime')
+        .snapshots();
+  }
+
+  deleteORder(){
+    
   }
 }

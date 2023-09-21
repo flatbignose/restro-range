@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restro_range/auth/controllers/auth_controller.dart';
+import 'package:restro_range/const/loader.dart';
 
 import '../../auth/screens/login.dart';
 import '../../const/colors.dart';
@@ -15,27 +16,23 @@ class LogOutPop extends ConsumerWidget {
   final Size size;
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
       elevation: 5,
       backgroundColor: textColor,
       content: const Text(
         'Log Out Current Session?',
-        style: TextStyle(
-            color: Colors.red,
-            fontWeight: FontWeight.bold),
+        style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
       ),
       actionsAlignment: MainAxisAlignment.center,
       actions: [
         Row(
-          mainAxisAlignment:
-              MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             AnimatedContainer(
-                duration:
-                    const Duration(milliseconds: 150),
+                duration: const Duration(milliseconds: 150),
                 width: size.width / 8,
                 height: size.width / 8,
                 decoration: BoxDecoration(
@@ -52,19 +49,18 @@ class LogOutPop extends ConsumerWidget {
                 ),
                 child: TextButton(
                     onPressed: () async {
-                      const CircularProgressIndicator();
+                      showDialog(
+                          context: context,
+                          builder: (context) => const Loader(title: 'Logging Out'));
                       await ref.read(authContollerProvider).logOut();
 
                       // ignore: use_build_context_synchronously
                       Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          ScreenLogin.routeName,
-                          (route) => false);
+                          context, ScreenLogin.routeName, (route) => false);
                     },
                     child: const Text(
                       'Yes',
-                      style:
-                          TextStyle(color: textColor),
+                      style: TextStyle(color: textColor),
                     ))
                 // IconButton(
                 //     onPressed: () {},
@@ -74,8 +70,7 @@ class LogOutPop extends ConsumerWidget {
                 //     )),
                 ),
             AnimatedContainer(
-                duration:
-                    const Duration(milliseconds: 150),
+                duration: const Duration(milliseconds: 150),
                 width: size.width / 8,
                 height: size.width / 8,
                 decoration: BoxDecoration(
@@ -96,8 +91,7 @@ class LogOutPop extends ConsumerWidget {
                     },
                     child: const Text(
                       'No',
-                      style:
-                          TextStyle(color: textColor),
+                      style: TextStyle(color: textColor),
                     ))),
           ],
         )
@@ -105,4 +99,3 @@ class LogOutPop extends ConsumerWidget {
     );
   }
 }
-

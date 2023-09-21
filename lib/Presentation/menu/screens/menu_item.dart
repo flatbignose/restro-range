@@ -41,7 +41,7 @@ class ScreenMenuItems extends ConsumerWidget {
           child: StreamBuilder<QuerySnapshot>(
               stream: ref
                   .read(menuControProvider)
-                  .getMenuItems(categoryId: categoryId),
+                  .getMenuItems(categoryName: categoryName),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -114,7 +114,7 @@ class ScreenMenuItems extends ConsumerWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                         width: size.width * 0.95,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: textColor,
                           borderRadius: radius10,
                         ),

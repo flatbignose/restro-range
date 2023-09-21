@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restro_range/Presentation/screens/home.dart';
+import 'package:restro_range/Presentation/screens/launch.dart';
 import 'package:restro_range/auth/controllers/auth_controller.dart';
 import 'package:restro_range/auth/screens/login.dart';
 import 'package:restro_range/const/colors.dart';
@@ -38,9 +39,11 @@ class MyApp extends ConsumerWidget {
         useMaterial3: true,
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: ref.watch(userDataProvider).when(
+      home: 
+      ref.watch(userDataProvider).when(
         data: (restaurant) {
           if (restaurant == null) {
+            
             return ScreenLogin();
           }
           return const ScreenHome();
@@ -49,21 +52,11 @@ class MyApp extends ConsumerWidget {
           return ErrorScreen(error: error.toString());
         },
         loading: () {
-          return const ScreenLoader();
+          return const Loader(
+            title: 'Loading...',
+          );
         },
       ),
-      // StreamBuilder(
-      //   stream: FirebaseAuth.instance.authStateChanges(),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.hasError) {
-      //       return Text(snapshot.error.toString());
-      //     }else{
-      //       if(snapshot.connectionState==ConnectionState.active){
-      //         User? user=FirebaseAuth.instanceFor(app: app)
-      //       }
-      //     }
-      //   },
-      // ),
     );
   }
 }

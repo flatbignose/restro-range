@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -50,7 +49,7 @@ class ScreenCategories extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.amberAccent,
                       borderRadius: radius10,
                     ),
@@ -63,7 +62,7 @@ class ScreenCategories extends ConsumerWidget {
                   ),
                 ),
                 const Text(
-                  'Add Waiters',
+                  'Add Categories',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 40,

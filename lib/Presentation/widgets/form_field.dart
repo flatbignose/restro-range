@@ -13,8 +13,10 @@ class CustomField extends HookWidget {
   final TextInputType? keyboardType;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final dynamic Function()? ontap;
   const CustomField({
     Key? key,
+    this.ontap,
     this.maxlength,
     required this.title,
     this.visible,
@@ -27,10 +29,12 @@ class CustomField extends HookWidget {
 
   final Size size;
 
+
+
   @override
   Widget build(BuildContext context) {
     final passwordvisible = useState<bool>(obscure!);
-    // controller!.text =  
+    // controller!.text =
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 20),
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
@@ -43,6 +47,7 @@ class CustomField extends HookWidget {
           children: [
             Expanded(
               child: TextFormField(
+                onTap: ontap,
                 obscureText: passwordvisible.value,
                 onEditingComplete: () {
                   // Clear the focus of the TextField when the keyboard is closed.

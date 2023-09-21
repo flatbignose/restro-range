@@ -28,7 +28,6 @@ class WaiterController {
     required String waiterAge,
     required String waiterPhone,
     required String userId,
-    required String restroName,
   }) async {
     await waiterRepo.addWaiter(
       context: context,
@@ -38,7 +37,6 @@ class WaiterController {
       waiterAge: waiterAge,
       waiterPhone: waiterPhone,
       userId: userId,
-      restroName: restroName,
     );
   }
 

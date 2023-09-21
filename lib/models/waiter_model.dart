@@ -5,7 +5,6 @@ class WaiterModel {
   final String waiterAge;
   final String waiterPhone;
   final DateTime joinDate;
-  final String restroName;
   final String userId;
   final String restroId;
 
@@ -15,7 +14,6 @@ class WaiterModel {
     required this.waiterAge,
     required this.waiterPhone,
     required this.joinDate,
-    required this.restroName,
     required this.userId,
     required this.restroId,
   });
@@ -25,7 +23,6 @@ class WaiterModel {
       'waiterName': waiterName,
       'waiterAge': waiterAge,
       'waiterPhone': waiterPhone,
-      'restroName': restroName,
       'userId': userId,
       'restroId': restroId,
       'waiterPic': waiterPic,
@@ -38,7 +35,6 @@ class WaiterModel {
       waiterName: map['waiterName'] ?? '',
       waiterAge: map['waiterAge'] ?? '',
       waiterPhone: map['waiterPhone'] ?? '',
-      restroName: map['restroName'] ?? '',
       userId: map['userId'] ?? '',
       restroId: map['restroId'] ?? '',
       waiterPic: map['waiterPic'] ?? '',

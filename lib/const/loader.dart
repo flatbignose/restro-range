@@ -2,35 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:restro_range/const/colors.dart';
 
-
-class ScreenLoader extends StatelessWidget {
-  const ScreenLoader({super.key});
+class Loader extends StatelessWidget {
+  final String title;
+  const Loader({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('asset/images/cover_1.jpg'),
-                fit: BoxFit.cover)),
+      backgroundColor: Colors.transparent,
+      body: Center(
         child: Stack(
           alignment: Alignment.center,
           children: [
-            const Text(
-              'RestroRange',
-              style: TextStyle(color: primColor, fontSize: 70),
+            Lottie.asset(
+              'asset/lottie_files/orange.json',
+              repeat: true,
+              fit: BoxFit.cover,
+              height: 250,
             ),
             Positioned(
-              bottom: 180,
-              child: Lottie.asset(
-                  'assets/lottie_files/bright-loading-dots.json',
-                  repeat: true,
-                  fit: BoxFit.cover,
-                  height: 50),
-            ),
+              bottom: 50,
+              child: Text(
+                title,
+                style: TextStyle(fontSize: 20, color: textColor),
+              ),
+            )
           ],
         ),
       ),

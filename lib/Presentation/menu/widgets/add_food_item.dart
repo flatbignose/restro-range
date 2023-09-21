@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:restro_range/Presentation/menu/controller/menu_controller.dart';
+import 'package:restro_range/Presentation/waiters/screens/waiters.dart';
 import 'package:restro_range/const/controllers.dart';
 
 import '../../../const/colors.dart';
@@ -128,10 +130,11 @@ class _AddFoodItemState extends ConsumerState<AddFoodItem> {
               CustomButton(
                 size: size,
                 buttonColor: primColor,
-                title: 'Add Waiter',
+                title: 'Add Item',
                 buttontextColor: backgroundColor,
-                onPressed: () {
+                onPressed: (){
                   addFoodItem();
+                  
                 },
               )
             ],

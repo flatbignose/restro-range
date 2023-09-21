@@ -12,6 +12,7 @@ import 'package:restro_range/const/utils.dart';
 
 import '../../Presentation/widgets/custom_button.dart';
 import '../../Presentation/widgets/form_field.dart';
+import '../../const/loader.dart';
 
 class ScreenRestroDetails extends ConsumerStatefulWidget {
   static const routeName = '/restroDetails';
@@ -50,6 +51,10 @@ class _ScreenRestroDetailsState extends ConsumerState<ScreenRestroDetails> {
           owner.isNotEmpty &&
           address.isNotEmpty &&
           phoneNumber.isNotEmpty) {
+        showDialog(
+          context: context,
+          builder: (context) => const Loader(title: 'Adding Details...'),
+        );
         await ref.read(authContollerProvider).saveRestroInfo(
               context: context,
               restroName: name,
@@ -59,7 +64,6 @@ class _ScreenRestroDetailsState extends ConsumerState<ScreenRestroDetails> {
               restroPic: image,
             );
         Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-        nameController.clear();
       }
     }
 
@@ -213,6 +217,11 @@ class _ScreenRestroDetailsState extends ConsumerState<ScreenRestroDetails> {
                   Column(
                     children: List.generate(4, (index) {
                       return CustomField(
+                          keyboardType: index == 3
+                              ? TextInputType.phone
+                              : TextInputType.text,
+                          visible: false,
+                          obscure: false,
                           controller: resControlList[index],
                           size: size,
                           title: ConstantLists.restroHintList[index]);

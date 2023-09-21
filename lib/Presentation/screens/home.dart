@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:restro_range/Presentation/menu/screens/orders.dart';
 import 'package:restro_range/Presentation/tables/controller/table_controller.dart';
+import 'package:restro_range/Presentation/waiters/screens/waiters.dart';
 import 'package:restro_range/Presentation/widgets/add_waiter.dart';
 import 'package:restro_range/const/colors.dart';
 import 'package:restro_range/const/lists.dart';
+import 'package:restro_range/const/size_radius.dart';
 import '../widgets/Drawer.dart';
 import '../widgets/add_menu_item.dart';
 
@@ -46,6 +49,17 @@ class _ScreenHomeState extends ConsumerState<ScreenHome> {
             );
           },
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return OrderList();
+                  },
+                ));
+              },
+              icon: const Icon(Icons.fastfood_outlined))
+        ],
       ),
       drawer: SafeArea(
         child: RestroDrawer(ref: ref, size: size),
@@ -58,7 +72,35 @@ class _ScreenHomeState extends ConsumerState<ScreenHome> {
         foregroundColor: backgroundColor,
         onPressed: () {
           if (_currentIndex == 0) {
-            ref.watch(tableControlProvider).addTable();
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text('Add New Table?'),
+                  actions: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              ref
+                                  .watch(tableControlProvider)
+                                  .addTable(context: context);
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Add Table')),
+                        height10,
+                        InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Cancel')),
+                      ],
+                    )
+                  ],
+                );
+              },
+            );
           } else if (_currentIndex == 1) {
             addItems(2, context);
           } else {
@@ -101,14 +143,12 @@ class _ScreenHomeState extends ConsumerState<ScreenHome> {
         isScrollControlled: true,
         context: context,
         elevation: 5,
-        
         showDragHandle: true,
         builder: (context) {
           if (index == 1) {
             return const CircularProgressIndicator();
           } else if (index == 2) {
-            
-            return const AddWaiter();
+            return AddWaiter();
           } else {
             return const AddMenuItem();
           }
