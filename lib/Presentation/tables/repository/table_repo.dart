@@ -38,41 +38,23 @@ class TableRepo {
           .collection('tables')
           .doc(uid)
           .set(data);
+      List<Map<String, dynamic>> orderList = [
+        {'foodSet': 'check'}
+      ];
+      Map<String, dynamic> food = {'orderList': orderList};
+      await firestore
+          .collection('restaurants')
+          .doc(auth.currentUser!.uid)
+          .collection('tables')
+          .doc(uid)
+          .collection('orders')
+          .doc('orderlist')
+          .set(food);
     } catch (e) {
       showSnackbar(context: context, content: e.toString());
       Navigator.pop(context);
     }
-    List<Map<String, dynamic>> tableSet = [
-      {'tableSet': null}
-    ];
-    Map<String, dynamic> tables = {"tableList": tableSet};
-    await firestore
-        .collection('restaurants')
-        .doc(restroId)
-        .collection('tableList')
-        .doc('tables')
-        .set(tables);
-    final tableDoc = await firestore
-        .collection('restaurants')
-        .doc(restroId)
-        .collection('tableList')
-        .doc('tables')
-        .get();
-    List<dynamic> tableDocListDynamic = tableDoc['tableList'];
-    List<Map<String, dynamic>> tableDocList =
-        List<Map<String, dynamic>>.from(tableDocListDynamic);
-    print(tableDocList);
-    Map<String, dynamic> tableData = {'tableSet': null};
-
-    tableDocList.add(tableData);
-    print(tableDocList);
-    Map<String, dynamic> addedTable = {"tableList": tableDocList};
-    await firestore
-        .collection('restaurants')
-        .doc(restroId)
-        .collection('tableList')
-        .doc('tables')
-        .set(addedTable);
+   
   }
 
   Future<void> updateTableFirebase(Map<String, dynamic> data) async {
@@ -125,6 +107,4 @@ class TableRepo {
       },
     );
   }
-
-   
 }

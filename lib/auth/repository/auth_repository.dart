@@ -32,6 +32,7 @@ class AuthRepo {
         .collection('restaurants')
         .doc(auth.currentUser?.uid)
         .get();
+
     RestroModel? restaurant;
     if (userData.data() != null) {
       restaurant = RestroModel.fromMap(userData.data()!);
