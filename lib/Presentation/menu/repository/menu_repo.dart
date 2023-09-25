@@ -6,11 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:restro_range/Presentation/screens/home.dart';
-import 'package:restro_range/Presentation/widgets/add_menu_item.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../const/loader.dart';
 import '../../../const/utils.dart';
 import '../../../providers/firebase_storage.dart';
 
@@ -116,7 +113,8 @@ class MenuRepo {
           .collection('restaurants')
           .doc(restroId)
           .collection('menu')
-          .add(foodItem);
+          .doc(uid)
+          .set(foodItem);
     } catch (e) {
       showSnackbar(context: context, content: e.toString());
       Navigator.pop(context);
@@ -152,16 +150,34 @@ class MenuRepo {
         .snapshots();
   }
 
-  Stream<QuerySnapshot<Object>> orderNotifications() {
+  deleteMenuItem({required String categoryName}) async {
+    final menuItems = await firestore
+        .collection('restaurants')
+        .doc(auth.currentUser!.uid)
+        .collection('menu')
+        .doc('')
+        .delete();
+  }
+
+  Stream<QuerySnapshot<Object>> orderNotifications(String tableId) {
     return firestore
         .collection('restaurants')
         .doc(auth.currentUser!.uid)
         .collection('orders')
-        .orderBy('orderTime')
+        // .where("orderId",isEqualTo:tableId)
         .snapshots();
   }
 
-  deleteORder(){
-    
+  orderall(String tableId) async{
+    final ben = await firestore
+        .collection('restaurants')
+        .doc(auth.currentUser!.uid)
+        .collection('orders')
+        .doc(tableId)
+        .get();
+
+    return ben;
   }
+
+  deleteORder() {}
 }

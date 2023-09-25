@@ -61,7 +61,7 @@ class MenuController {
   Stream<QuerySnapshot<Object>> getMenuItems({required String categoryName}) {
     return menuRepo.getMenuItems(categoryName: categoryName);
   }
-  Stream<QuerySnapshot>getOrders(){
-    return menuRepo.orderNotifications(); 
+  Stream<QuerySnapshot>getOrders(String tableId){
+    return menuRepo.orderNotifications(tableId); 
   }
 }

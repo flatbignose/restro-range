@@ -119,9 +119,19 @@ class ScreenMenuItems extends ConsumerWidget {
                           borderRadius: radius10,
                         ),
                         child: ListTile(
-                          leading: Image.network(foodPic),
+                          leading: Container(
+                            width: size.width * 0.12,
+                            height: size.width * 0.12,
+                            child: Image.network(
+                              foodPic,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                           title: Text(foodName),
-                          subtitle: Text(foodInfo),
+                          subtitle: Text(
+                            foodInfo,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                           trailing: Text('₹$foodPrice'),
                         ),
                       ),

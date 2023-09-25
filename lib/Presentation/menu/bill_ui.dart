@@ -11,10 +11,11 @@ import '../../const/size_radius.dart';
 
 class BillGeneration extends ConsumerStatefulWidget {
   final int tableIndex;
-  final int length;
-  const BillGeneration(
-    this.length, {
+  final String tableId;
+  const BillGeneration({
+    super.key,
     required this.tableIndex,
+    required this.tableId,
   });
 
   @override
@@ -33,7 +34,7 @@ class _BillGenerationState extends ConsumerState<BillGeneration> {
     return Scaffold(
       backgroundColor: textColor,
       body: StreamBuilder<QuerySnapshot>(
-          stream: ref.read(menuControProvider).getOrders(),
+          stream: ref.read(menuControProvider).getOrders(widget.tableId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -90,6 +91,7 @@ class _BillGenerationState extends ConsumerState<BillGeneration> {
                 ],
               ));
             }
+            print(snapshot.data!.docs.length);
             return ListView.builder(
               itemBuilder: (context, index) {
                 final document = snapshot.data!.docs[index];
@@ -97,7 +99,8 @@ class _BillGenerationState extends ConsumerState<BillGeneration> {
                 List<dynamic> orderListDynamic = data['order'];
                 List<Map<String, dynamic>> orderList =
                     List<Map<String, dynamic>>.from(orderListDynamic);
-                final data1 = orderList[widget.tableIndex];
+                final data1 = orderList[index];
+                print(orderList);
 
                 return CustomTileBill(
                     lead: '${index + 1}',
@@ -106,7 +109,7 @@ class _BillGenerationState extends ConsumerState<BillGeneration> {
                     total: data1['total'].toString(),
                     title: data1['foodName']);
               },
-              itemCount: 2,
+              itemCount: snapshot.data!.docs.length,
             );
           }),
     );

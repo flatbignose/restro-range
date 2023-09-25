@@ -82,7 +82,6 @@ class ScreenCategories extends ConsumerWidget {
             itemBuilder: (context, index) {
               final document = snapshot.data!.docs[index];
               final data = document.data() as Map<String, dynamic>;
-
               final name = data['categoryName'];
               final pic = data['categoryPic'];
               final categoryId = data['categoryId'];

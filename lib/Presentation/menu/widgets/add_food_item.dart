@@ -106,7 +106,7 @@ class _AddFoodItemState extends ConsumerState<AddFoodItem> {
               CustomField(
                 obscure: false,
                 visible: false,
-                title: 'Enter Food Name',
+                title: 'Enter ${widget.categoryName} Name',
                 size: size,
                 controller: nameController,
               ),
@@ -123,18 +123,17 @@ class _AddFoodItemState extends ConsumerState<AddFoodItem> {
                 // maxlength: 10,
                 obscure: false,
                 visible: false,
-                title: 'Enter Food Description',
+                title: 'Enter ${widget.categoryName} Description',
                 size: size,
                 controller: infoController,
               ),
               CustomButton(
                 size: size,
                 buttonColor: primColor,
-                title: 'Add Item',
+                title: 'Add ${widget.categoryName}',
                 buttontextColor: backgroundColor,
-                onPressed: (){
+                onPressed: () {
                   addFoodItem();
-                  
                 },
               )
             ],
