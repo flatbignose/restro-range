@@ -164,12 +164,29 @@ class MenuRepo {
         .collection('restaurants')
         .doc(auth.currentUser!.uid)
         .collection('orders')
-        // .where("orderId",isEqualTo:tableId)
+        .where("tableId", isEqualTo: tableId)
         .snapshots();
   }
 
-  orderall(String tableId) async{
-    final ben = await firestore
+  int orderListLength = 0;
+
+  callOrder(String tableId) async {
+    final snapshot = await firestore
+        .collection('restaurants')
+        .doc(auth.currentUser!.uid)
+        .collection('orders')
+        .where("tableId", isEqualTo: tableId)
+        .get();
+    final document = snapshot.docs[0];
+    final data = document.data() as Map<String, dynamic>;
+    List orderLIst = data['order'];
+    int length = orderLIst.length;
+    orderListLength = length;
+    print('$orderListLength');
+  }
+
+  orderall(String tableId) async {
+    final ben = firestore
         .collection('restaurants')
         .doc(auth.currentUser!.uid)
         .collection('orders')

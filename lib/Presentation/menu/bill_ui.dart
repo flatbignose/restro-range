@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:restro_range/Presentation/menu/controller/menu_controller.dart';
+import 'package:restro_range/Presentation/menu/repository/menu_repo.dart';
 import 'package:restro_range/const/colors.dart';
 
 import '../../const/size_radius.dart';
@@ -91,16 +92,16 @@ class _BillGenerationState extends ConsumerState<BillGeneration> {
                 ],
               ));
             }
-            print(snapshot.data!.docs.length);
+
             return ListView.builder(
               itemBuilder: (context, index) {
-                final document = snapshot.data!.docs[index];
+                final document = snapshot.data!.docs[0];
                 final data = document.data() as Map<String, dynamic>;
                 List<dynamic> orderListDynamic = data['order'];
                 List<Map<String, dynamic>> orderList =
                     List<Map<String, dynamic>>.from(orderListDynamic);
                 final data1 = orderList[index];
-                print(orderList);
+                print(orderList[index]);
 
                 return CustomTileBill(
                     lead: '${index + 1}',
@@ -109,7 +110,7 @@ class _BillGenerationState extends ConsumerState<BillGeneration> {
                     total: data1['total'].toString(),
                     title: data1['foodName']);
               },
-              itemCount: snapshot.data!.docs.length,
+              itemCount: ref.read(menuRepoProvider).orderListLength,
             );
           }),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restro_range/Presentation/menu/bill_ui.dart';
+import 'package:restro_range/Presentation/menu/repository/menu_repo.dart';
 import 'package:restro_range/Presentation/screens/orders.dart';
 import 'package:restro_range/Presentation/tables/controller/table_controller.dart';
 import 'package:restro_range/Presentation/waiters/controller/waiter_controller.dart';
@@ -54,11 +55,12 @@ class ScreenTables extends ConsumerWidget {
                     // } else {
                     // }
                     // options(context, size, occupied, ref, data);
+                     await ref.read(menuRepoProvider).callOrder(tableId);
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return BillGeneration(tableIndex: 
-                        index,
-                        tableId: tableId,
+                        return BillGeneration(
+                          tableIndex: index,
+                          tableId: tableId,
                         );
                       },
                     ));
