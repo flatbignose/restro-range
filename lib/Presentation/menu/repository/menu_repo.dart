@@ -157,6 +157,7 @@ class MenuRepo {
         .collection('menu')
         .doc('')
         .delete();
+    return menuItems;
   }
 
   Stream<QuerySnapshot<Object>> orderNotifications(String tableId) {
@@ -177,12 +178,14 @@ class MenuRepo {
         .collection('orders')
         .where("tableId", isEqualTo: tableId)
         .get();
-    final document = snapshot.docs[0];
-    final data = document.data() as Map<String, dynamic>;
-    List orderLIst = data['order'];
-    int length = orderLIst.length;
-    orderListLength = length;
-    print('$orderListLength');
+    if (snapshot.docs.isNotEmpty) {
+      final document = snapshot.docs[0];
+      final data = document.data() as Map<String, dynamic>;
+      List orderLIst = data['order'];
+      int length = orderLIst.length;
+      orderListLength = length;
+      print('$orderListLength');
+    }
   }
 
   orderall(String tableId) async {

@@ -9,11 +9,11 @@ void showSnackbar({required BuildContext context, required String content}) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text(
       content,
-      style: const TextStyle(color: primColor),
+      style: const TextStyle(color: backgroundColor),
     ),
     showCloseIcon: true,
     dismissDirection: DismissDirection.down,
-    backgroundColor: backgroundColor,
+    backgroundColor: primColor,
     shape: const ContinuousRectangleBorder(borderRadius: radius20),
     animation: CurvedAnimation(
         parent: kAlwaysCompleteAnimation, curve: Curves.easeInOut),
@@ -35,5 +35,3 @@ Future<File?> pickImageFromGallery(
   }
   return image;
 }
-
-

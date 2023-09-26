@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:restro_range/Presentation/menu/bill_ui.dart';
+import 'package:restro_range/Presentation/menu/orders.dart';
 import 'package:restro_range/Presentation/menu/repository/menu_repo.dart';
-import 'package:restro_range/Presentation/screens/orders.dart';
 import 'package:restro_range/Presentation/tables/controller/table_controller.dart';
 import 'package:restro_range/Presentation/waiters/controller/waiter_controller.dart';
 import 'package:restro_range/const/colors.dart';
+import 'package:restro_range/const/utils.dart';
 
 import '../../../const/size_radius.dart';
 
@@ -55,15 +55,21 @@ class ScreenTables extends ConsumerWidget {
                     // } else {
                     // }
                     // options(context, size, occupied, ref, data);
-                     await ref.read(menuRepoProvider).callOrder(tableId);
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return BillGeneration(
-                          tableIndex: index,
-                          tableId: tableId,
-                        );
-                      },
-                    ));
+                    if (occupied == true) {
+                      await ref.read(menuRepoProvider).callOrder(tableId);
+                      // ignore: use_build_context_synchronously
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return BillGeneration(
+                            tableIndex: index,
+                            tableId: tableId,
+                          );
+                        },
+                      ));
+                    } else {
+                      showSnackbar(
+                          context: context, content: 'Table Not Occupied!');
+                    }
                   },
                   child: Stack(
                     alignment: Alignment.center,

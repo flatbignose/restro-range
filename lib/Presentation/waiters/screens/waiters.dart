@@ -91,6 +91,7 @@ class _ScreenWaiterState extends ConsumerState<ScreenWaiter> {
               itemBuilder: (context, index) {
                 final document = snapshot.data!.docs[index];
                 final data = document.data() as Map<String, dynamic>;
+                
 
                 final name = data['waiterName'];
                 final pic = data['waiterPic'];
